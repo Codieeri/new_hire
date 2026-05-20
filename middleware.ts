@@ -3,24 +3,39 @@ import type { NextRequest } from 'next/server';
 
 const normalize = (value: string) => value.trim().toLowerCase();
 
-const isAdminHost = (host: string, hostname: string) => {
-  const configuredRaw = process.env.ADMIN_APP_HOST?.trim();
-  if (!configuredRaw) return true;
+const parseHost = (raw: string | null | undefined) => {
+  if (!raw) return '';
+  return normalize(raw.split(',')[0] ?? '');
+};
 
-  const configured = normalize(configuredRaw);
-  const requestHost = normalize(host);
-  const requestHostname = normalize(hostname);
+const hostMatches = (candidate: string, configured: string) => {
+  if (!candidate || !configured) return false;
+  if (candidate === configured) return true;
 
-  if (configured === requestHost || configured === requestHostname) return true;
+  const candidateHostname = candidate.split(':')[0] ?? candidate;
+  const configuredHostname = configured.split(':')[0] ?? configured;
+  return candidateHostname === configuredHostname;
+};
 
-  const configuredWithoutPort = configured.split(':')[0];
-  return configuredWithoutPort === requestHostname;
+const isAdminHost = (req: NextRequest) => {
+  const configured = normalize(process.env.ADMIN_APP_HOST ?? '');
+  if (!configured) return true;
+
+  const forwardedHost = parseHost(req.headers.get('x-forwarded-host'));
+  const requestHost = normalize(req.nextUrl.host);
+  const requestHostname = normalize(req.nextUrl.hostname);
+
+  return (
+    hostMatches(forwardedHost, configured) ||
+    hostMatches(requestHost, configured) ||
+    hostMatches(requestHostname, configured)
+  );
 };
 
 export function middleware(req: NextRequest) {
-  const { pathname, host, hostname } = req.nextUrl;
+  const { pathname } = req.nextUrl;
 
-  if (!isAdminHost(host, hostname)) {
+  if (!isAdminHost(req)) {
     const blockedAdminPath = pathname === '/admin' || pathname.startsWith('/admin/');
     if (blockedAdminPath) {
       return NextResponse.redirect(new URL('/', req.url));
