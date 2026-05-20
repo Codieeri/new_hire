@@ -48,8 +48,8 @@ export default function AdminDashboard() {
 
   const load = async () => {
     const [jobsResult, appsResult] = await Promise.allSettled([
-      fetch("/api/admin/jobs", { cache: "no-store" }),
-      fetch("/api/admin/applications", { cache: "no-store" }),
+      fetch(`/api/admin/jobs?t=${Date.now()}`, { cache: "no-store" }),
+      fetch(`/api/admin/applications?t=${Date.now()}`, { cache: "no-store" }),
     ]);
 
     if (jobsResult.status === "fulfilled" && jobsResult.value.ok) {
