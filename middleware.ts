@@ -1,16 +1,26 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const isAdminHost = (host: string) => {
-  const configured = process.env.ADMIN_APP_HOST?.trim().toLowerCase();
-  if (!configured) return true;
-  return host.toLowerCase() === configured;
+const normalize = (value: string) => value.trim().toLowerCase();
+
+const isAdminHost = (host: string, hostname: string) => {
+  const configuredRaw = process.env.ADMIN_APP_HOST?.trim();
+  if (!configuredRaw) return true;
+
+  const configured = normalize(configuredRaw);
+  const requestHost = normalize(host);
+  const requestHostname = normalize(hostname);
+
+  if (configured === requestHost || configured === requestHostname) return true;
+
+  const configuredWithoutPort = configured.split(':')[0];
+  return configuredWithoutPort === requestHostname;
 };
 
 export function middleware(req: NextRequest) {
-  const { pathname, host } = req.nextUrl;
+  const { pathname, host, hostname } = req.nextUrl;
 
-  if (!isAdminHost(host)) {
+  if (!isAdminHost(host, hostname)) {
     const blockedAdminPath = pathname === '/admin' || pathname.startsWith('/admin/');
     if (blockedAdminPath) {
       return NextResponse.redirect(new URL('/', req.url));
