@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Handshake, Store, ShoppingBag, Building2, Users, ShieldCheck, Truck } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
@@ -64,7 +65,9 @@ export default function Home() {
           <p className="text-[#4A5568] text-lg max-w-xl">Find jobs that match your interests and abilities with a minimal, modern hiring experience.</p>
           <button className="btn-primary" onClick={() => document.getElementById("jobs")?.scrollIntoView({ behavior: "smooth" })}>Get Started</button>
         </div>
-        <div className="rounded-2xl border border-dashed border-[var(--line)] bg-[#e5f2f4] min-h-[360px] grid place-items-center text-zinc-500 text-sm">Hero Image Placeholder</div>
+        <div className="rounded-2xl border border-[var(--line)] bg-[#e5f2f4] min-h-[360px] overflow-hidden">
+          <Image src="/hero-placeholder.svg" alt="Hero image placeholder" width={720} height={420} className="h-full w-full object-cover" priority />
+        </div>
       </section>
 
       <section className="container -mt-8 relative z-10">

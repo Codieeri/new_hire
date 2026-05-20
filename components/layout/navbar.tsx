@@ -63,10 +63,15 @@ export function Navbar() {
     <header className="sticky top-0 z-50 py-3">
       <nav className="container shell h-16 px-6 flex items-center justify-between">
         <Link href="/" className="font-semibold text-lg tracking-tight flex items-center gap-3">
-          <Image src="/localsm-logo.svg" alt="LocalSM logo" width={28} height={28} />
-          <span className="h-9 min-w-[180px] rounded-lg border border-dashed border-[var(--line)] bg-white/70 px-3 text-sm text-zinc-500 inline-flex items-center">
-            Brand Title Placeholder
-          </span>
+          <Image src="/navbar-logo-icon.svg" alt="Navbar logo icon" width={28} height={28} />
+          <Image
+            src="/navbar-title-placeholder.svg"
+            alt="Navbar stylized title"
+            width={190}
+            height={36}
+            className="h-9 w-auto"
+            priority
+          />
         </Link>
 
         <button className="md:hidden" onClick={() => setOpen(!open)}>
