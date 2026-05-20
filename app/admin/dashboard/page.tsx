@@ -44,6 +44,7 @@ export default function AdminDashboard() {
   const [jobForm, setJobForm] = useState({ title: "", category: defaultCategories[0], description: "", location: "", salary: "", experience: experienceOptions[0], employmentType: employmentTypeOptions[1], skills: "" });
   const [categories, setCategories] = useState<string[]>(defaultCategories);
   const [skillSuggestions, setSkillSuggestions] = useState<string[]>([]);
+  const [skillInput, setSkillInput] = useState("");
 
   const load = async () => {
     const [jobsRes, appsRes] = await Promise.all([
@@ -79,14 +80,17 @@ export default function AdminDashboard() {
   const newApplicants = applications.filter((a) => Date.now() - new Date(a.createdAt).getTime() < 7 * 24 * 3600 * 1000).length;
   const hiredRate = Math.round((applications.filter((a) => a.status === "HIRED").length / Math.max(1, applications.length)) * 100);
 
+  const parseSkills = (value: string) => value.split(",").map((s) => s.trim()).filter(Boolean);
+
   const addJob = async (e: React.FormEvent) => {
     e.preventDefault();
-    const parsedSkills = jobForm.skills.split(",").map((s) => s.trim()).filter(Boolean);
+    const parsedSkills = parseSkills(skillInput || jobForm.skills);
     await fetch("/api/admin/jobs", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...jobForm, skills: parsedSkills, isOpen: true }) });
     const mergedSkills = Array.from(new Set([...skillSuggestions, ...parsedSkills]));
     setSkillSuggestions(mergedSkills);
     localStorage.setItem("admin_skill_suggestions", JSON.stringify(mergedSkills));
     setJobForm({ title: "", category: categories[0] || defaultCategories[0], description: "", location: "", salary: "", experience: experienceOptions[0], employmentType: employmentTypeOptions[1], skills: "" });
+    setSkillInput("");
     await load();
   };
 
@@ -106,12 +110,23 @@ export default function AdminDashboard() {
   const handleSkillsKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter") return;
     e.preventDefault();
-    const entered = jobForm.skills.split(",").map((s) => s.trim()).filter(Boolean);
+    const entered = parseSkills(skillInput);
     if (!entered.length) return;
     const mergedSkills = Array.from(new Set([...skillSuggestions, ...entered]));
     setSkillSuggestions(mergedSkills);
     localStorage.setItem("admin_skill_suggestions", JSON.stringify(mergedSkills));
   };
+
+  const addSuggestedSkill = (skill: string) => {
+    const current = parseSkills(skillInput);
+    if (current.includes(skill)) return;
+    const next = [...current, skill].join(", ");
+    setSkillInput(next);
+    setJobForm((prev) => ({ ...prev, skills: next }));
+  };
+
+  const currentSkillTokens = parseSkills(skillInput);
+  const visibleSkillSuggestions = skillSuggestions.filter((s) => !currentSkillTokens.includes(s)).slice(0, 8);
 
   return <main className="container py-10 space-y-6">
     <h1 className="text-3xl font-semibold">Admin Dashboard</h1>
@@ -138,8 +153,10 @@ export default function AdminDashboard() {
         <select className="border rounded p-2" value={jobForm.employmentType} onChange={(e) => setJobForm({ ...jobForm, employmentType: e.target.value })}>
           {employmentTypeOptions.map((opt) => <option key={opt} value={opt}>{opt}</option>)}
         </select>
-        <input className="border rounded p-2 md:col-span-2" placeholder="Skills comma separated" value={jobForm.skills} onChange={(e) => setJobForm({ ...jobForm, skills: e.target.value })} onKeyDown={handleSkillsKeyDown} list="skills-suggestions" />
-        <datalist id="skills-suggestions">{skillSuggestions.map((skill) => <option key={skill} value={skill} />)}</datalist>
+        <div className="md:col-span-2 space-y-2">
+          <input className="border rounded p-2 w-full" placeholder="Skills comma separated" value={skillInput} onChange={(e) => { setSkillInput(e.target.value); setJobForm({ ...jobForm, skills: e.target.value }); }} onKeyDown={handleSkillsKeyDown} />
+          {visibleSkillSuggestions.length > 0 && <div className="flex flex-wrap gap-2">{visibleSkillSuggestions.map((skill) => <button key={skill} type="button" className="text-xs border rounded-full px-2 py-1 hover:bg-zinc-50" onClick={() => addSuggestedSkill(skill)}>{skill}</button>)}</div>}
+        </div>
         <textarea className="border rounded p-2 md:col-span-4" placeholder="Description" value={jobForm.description} onChange={(e) => setJobForm({ ...jobForm, description: e.target.value })} required />
         <button className="btn-primary md:col-span-1" type="submit">Add Job</button>
       </form>
