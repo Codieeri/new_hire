@@ -26,7 +26,7 @@ type AppRow = {
   status: "PENDING" | "REVIEWING" | "SHORTLISTED" | "REJECTED" | "HIRED";
   createdAt: string;
   user: { name: string; email: string };
-  job: { title: string };
+  job: { title: string; category: string };
   notes: Note[];
   location?: string | null;
   yearsExperience?: string | null;
@@ -217,9 +217,9 @@ export default function AdminDashboard() {
         </select>
       </div>
       <table className="w-full text-sm">
-        <thead><tr className="border-b"><th className="text-left p-2">Candidate</th><th>Role</th><th>Status</th><th>Resume</th><th>Actions</th></tr></thead>
+        <thead><tr className="border-b"><th className="text-left p-2">Candidate</th><th>Field</th><th>Role</th><th>Status</th><th>Resume</th><th>Actions</th></tr></thead>
         <tbody>
-          {filteredApplications.map((a) => <tr key={a.id} className="border-b align-top"><td className="p-2">{a.user.name}<div className="text-zinc-500">{a.user.email}<br />{a.phone}</div></td><td>{a.job.title}</td><td>{a.status}</td><td><a href={`/api/admin/applications/${a.id}/resume`} className="underline" target="_blank" rel="noopener noreferrer">Download</a></td><td className="p-2"><div className="flex gap-2 flex-wrap">
+          {filteredApplications.map((a) => <tr key={a.id} className="border-b align-top"><td className="p-2">{a.user.name}<div className="text-zinc-500">{a.user.email}<br />{a.phone}</div></td><td>{a.job.category}</td><td>{a.job.title}</td><td>{a.status}</td><td><a href={`/api/admin/applications/${a.id}/resume`} className="underline" target="_blank" rel="noopener noreferrer">Download</a></td><td className="p-2"><div className="flex gap-2 flex-wrap">
             <select className="border rounded p-1" value={a.status} onChange={async (e) => {
               const nextStatus = e.target.value as AppRow["status"];
               setApplications((prev) => prev.map((row) => row.id === a.id ? { ...row, status: nextStatus } : row));
