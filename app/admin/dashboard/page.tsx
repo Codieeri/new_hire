@@ -47,12 +47,13 @@ export default function AdminDashboard() {
   const [skillInput, setSkillInput] = useState("");
 
   const load = async () => {
-    const [jobsRes, appsRes] = await Promise.all([
+    const [jobsResult, appsResult] = await Promise.allSettled([
       fetch("/api/admin/jobs", { cache: "no-store" }),
       fetch("/api/admin/applications", { cache: "no-store" }),
     ]);
-    if (jobsRes.ok) {
-      const loadedJobs: Job[] = await jobsRes.json();
+
+    if (jobsResult.status === "fulfilled" && jobsResult.value.ok) {
+      const loadedJobs: Job[] = await jobsResult.value.json();
       setJobs(loadedJobs);
       const fromJobsCategories = Array.from(new Set(loadedJobs.map((j) => j.category).filter(Boolean)));
       const fromJobsSkills = Array.from(new Set(loadedJobs.flatMap((j) => j.skills || []).map((s) => s.trim()).filter(Boolean)));
@@ -65,7 +66,10 @@ export default function AdminDashboard() {
       localStorage.setItem("admin_categories", JSON.stringify(mergedCategories));
       localStorage.setItem("admin_skill_suggestions", JSON.stringify(mergedSkills));
     }
-    if (appsRes.ok) setApplications(await appsRes.json());
+
+    if (appsResult.status === "fulfilled" && appsResult.value.ok) {
+      setApplications(await appsResult.value.json());
+    }
   };
 
   useEffect(() => {
