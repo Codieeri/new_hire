@@ -53,18 +53,15 @@ export async function POST(req: Request) {
   const buffer = Buffer.from(bytes);
   const storedName = `${Date.now()}-${sanitizeFileName(fileName)}`;
   const resumeBase64 = buffer.toString('base64');
-  let resumePath = `data:${resume.type};name=${encodeURIComponent(storedName)};base64,${resumeBase64}`;
+  const resumePath = `data:${resume.type};name=${encodeURIComponent(storedName)};base64,${resumeBase64}`;
 
   try {
     const uploadDir = join(process.cwd(), 'public', 'uploads', 'resumes');
     await mkdir(uploadDir, { recursive: true });
     await writeFile(join(uploadDir, storedName), buffer);
-    resumePath = `/uploads/resumes/${storedName}`;
-  } catch (error) {
-    const fsError = error as NodeJS.ErrnoException;
-    if (fsError.code !== 'EROFS') {
-      throw error;
-    }
+  } catch {
+    // Optional best-effort local write only.
+    // In serverless deployments the filesystem may be read-only or ephemeral.
   }
 
   const user = await prisma.user.upsert({

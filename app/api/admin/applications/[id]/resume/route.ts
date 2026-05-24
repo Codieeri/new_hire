@@ -87,7 +87,7 @@ export async function GET(_req: Request, { params }: { params: { id: string } })
   try {
     await access(diskPath, constants.R_OK);
   } catch {
-    return NextResponse.json({ error: 'Resume file is missing on server storage.' }, { status: 404 });
+    return NextResponse.json({ error: 'Resume file is missing on server storage. This is usually a legacy record saved before persistent resume storage was enabled.' }, { status: 404 });
   }
 
   const file = await readFile(diskPath);
