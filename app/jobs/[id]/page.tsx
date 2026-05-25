@@ -19,17 +19,25 @@ export default async function JobDetail({ params }: { params: { id: string } }) 
                 {job.category} • {job.location} • {job.salary}
               </p>
 
-              <h2 className='font-semibold pt-4'>Responsibilities</h2>
-              <ul className='list-disc pl-6 text-zinc-700'>
-                <li>Ship quality experiences.</li>
-                <li>Collaborate cross-functionally.</li>
-              </ul>
+              <h2 className='font-semibold pt-4'>Job Description</h2>
+              <p className='text-zinc-700 whitespace-pre-wrap'>{job.description}</p>
 
               <h2 className='font-semibold pt-4'>Requirements</h2>
               <ul className='list-disc pl-6 text-zinc-700'>
                 <li>{job.experience}</li>
                 <li>{job.skills.join(', ')}</li>
               </ul>
+
+              {job.customQuestions.length > 0 && (
+                <>
+                  <h2 className='font-semibold pt-4'>Custom Questions</h2>
+                  <ul className='list-disc pl-6 text-zinc-700 space-y-1'>
+                    {job.customQuestions.map((question) => (
+                      <li key={question}>{question}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
             </section>
 
             <aside className='lg:sticky lg:top-20 card p-4 h-fit bg-white'>
