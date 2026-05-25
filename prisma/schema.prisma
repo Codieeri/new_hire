@@ -27,6 +27,7 @@ model Job {
   experience     String
   employmentType String
   skills         String[]
+  customQuestions String[]      @default([])
   openings       Int           @default(1)
   isOpen         Boolean       @default(true)
   applications   Application[]
