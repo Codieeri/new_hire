@@ -27,6 +27,7 @@ model Job {
   experience     String
   employmentType String
   skills         String[]
+  openings       Int           @default(1)
   isOpen         Boolean       @default(true)
   applications   Application[]
   createdAt      DateTime      @default(now())
