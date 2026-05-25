@@ -6,7 +6,10 @@ export const revalidate = 0;
 
 export async function GET() {
   const jobs = await prisma.job.findMany({
-    where: { isOpen: true },
+    where: {
+      isOpen: true,
+      openings: { gt: 0 },
+    },
     orderBy: { createdAt: 'desc' },
   });
 
