@@ -170,10 +170,10 @@ export default function Home() {
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { icon: Handshake, value: '0+', label: 'Interns Onboarded' },
-            { icon: Store, value: '0%', label: 'Convert to Full-time' },
-            { icon: ShoppingBag, value: '0+', label: 'Roles Open' },
-            { icon: Building2, value: '0', label: 'Founded' },
+            { icon: Handshake, value: '12+', label: 'Interns Onboarded' },
+            { icon: Store, value: '40%', label: 'Convert to Full-time' },
+            { icon: ShoppingBag, value: '19+', label: 'Roles Open' },
+            { icon: Building2, value: '2024', label: 'Founded' },
           ].map((item) => (
             <div key={item.label} className="card p-6 text-center">
               <div className="mx-auto mb-4 h-14 w-14 rounded-2xl bg-[var(--accent)] text-[#0f2526] grid place-items-center"><item.icon size={24} /></div>
