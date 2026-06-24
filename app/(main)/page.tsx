@@ -64,7 +64,10 @@ export default function Home() {
         <div className="space-y-6">
           <h1 className="text-5xl md:text-6xl leading-tight font-extrabold">Work with Us</h1>
           <p className="text-[#4A5568] text-lg max-w-xl">Find jobs that match your interests and abilities with a minimal, modern hiring experience.</p>
-          <button className="btn-primary" onClick={() => document.getElementById("jobs")?.scrollIntoView({ behavior: "smooth" })}>Get Started</button>
+          <div className="flex flex-wrap gap-3">
+            <button className="btn-primary" onClick={() => document.getElementById("jobs")?.scrollIntoView({ behavior: "smooth" })}>Get Started</button>
+            <button className="btn-secondary" onClick={() => document.getElementById("jobs")?.scrollIntoView({ behavior: "smooth" })}>Explore Roles</button>
+          </div>
         </div>
         <div className="rounded-2xl border border-[var(--line)] bg-[#e5f2f4] min-h-[360px] overflow-hidden">
           <Image src="/hero-placeholder.png" alt="Hero image placeholder" width={720} height={420} className="h-full w-full object-cover" priority />
@@ -79,6 +82,47 @@ export default function Home() {
               <button key={c} onClick={() => { setCategory(c); document.getElementById("jobs")?.scrollIntoView({ behavior: "smooth" }); }} className={`rounded-xl border border-[var(--line)] px-4 py-3 text-sm transition ${isExploreAll ? "bg-zinc-100 text-zinc-900 font-medium hover:bg-zinc-200" : "hover:bg-[color:rgba(123,208,211,0.12)] hover:border-[#c2dfe2]"}`}>{c}</button>
             );
           })}
+        </div>
+      </section>
+
+      <section className="container py-8">
+        <div className="rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-6 md:p-8">
+          <h2 className="text-2xl md:text-3xl font-bold mb-4 text-[var(--ink)]">
+            Why Join LocalSM?
+          </h2>
+          <p className="text-zinc-600 max-w-2xl mb-6">
+            Work with a small, focused team building products that serve our city. Internships at LocalSM are hands-on, mentored, and designed to grow your career.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="p-4 rounded-xl border border-[var(--line)] bg-[var(--card)]">
+              <div className="text-3xl mb-3">🚀</div>
+              <h3 className="font-semibold text-lg mb-1">Real Projects</h3>
+              <p className="text-sm text-zinc-500">
+                Work on features actually shipping to LocalSM users.
+              </p>
+            </div>
+            <div className="p-4 rounded-xl border border-[var(--line)] bg-[var(--card)]">
+              <div className="text-3xl mb-3">🎓</div>
+              <h3 className="font-semibold text-lg mb-1">Certificate of Completion</h3>
+              <p className="text-sm text-zinc-500">
+                Verified proof of your internship, ready for your resume.
+              </p>
+            </div>
+            <div className="p-4 rounded-xl border border-[var(--line)] bg-[var(--card)]">
+              <div className="text-3xl mb-3">📈</div>
+              <h3 className="font-semibold text-lg mb-1">Career Growth</h3>
+              <p className="text-sm text-zinc-500">
+                Mentorship and a clear path from intern to full-time.
+              </p>
+            </div>
+            <div className="p-4 rounded-xl border border-[var(--line)] bg-[var(--card)]">
+              <div className="text-3xl mb-3">🎉</div>
+              <h3 className="font-semibold text-lg mb-1">Fun & Inclusive Culture</h3>
+              <p className="text-sm text-zinc-500">
+                A small team that actually likes working together.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -107,10 +151,10 @@ export default function Home() {
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
-            { icon: Handshake, value: '55+', label: 'Happy Customers' },
-            { icon: Store, value: '17+', label: 'Local Sellers' },
-            { icon: ShoppingBag, value: '19+', label: 'Products Listed' },
-            { icon: Building2, value: 'Jabalpur', label: 'Our City' },
+            { icon: Handshake, value: '0+', label: 'Interns Onboarded' },
+            { icon: Store, value: '0%', label: 'Convert to Full-time' },
+            { icon: ShoppingBag, value: '0+', label: 'Roles Open' },
+            { icon: Building2, value: '0', label: 'Founded' },
           ].map((item) => (
             <div key={item.label} className="card p-6 text-center">
               <div className="mx-auto mb-4 h-14 w-14 rounded-2xl bg-[var(--accent)] text-[#0f2526] grid place-items-center"><item.icon size={24} /></div>
@@ -137,8 +181,8 @@ export default function Home() {
 
       <section id="contact" className="container py-2">
         <div className="grid md:grid-cols-3 gap-4">
-          <div className="card p-5"><p className="text-sm text-zinc-500">Email</p><p className="font-semibold break-all">aadiyandubey@gmail.com</p></div>
-          <div className="card p-5"><p className="text-sm text-zinc-500">Phone</p><p className="font-semibold">+917089152020</p></div>
+          <div className="card p-5"><p className="text-sm text-zinc-500">Email</p><p className="font-semibold break-all">founder@localsm.com</p></div>
+          <div className="card p-5"><p className="text-sm text-zinc-500">Email</p><p className="font-semibold break-all">management@localsm.com</p></div>
           <div className="card p-5"><p className="text-sm text-zinc-500">Address</p><p className="font-semibold">Jabalpur</p></div>
         </div>
       </section>
