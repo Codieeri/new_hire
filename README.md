@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # HireTech Platform
 
 Minimal multi-page ATS-style hiring platform built with Next.js App Router, TypeScript, Tailwind CSS, Framer Motion, Zustand, Prisma/PostgreSQL, and placeholder auth/upload integrations.
@@ -20,3 +21,6 @@ Minimal multi-page ATS-style hiring platform built with Next.js App Router, Type
 - Responsive design + subtle hover animations
 - Resume upload field + validation placeholders
 - Schema models for `User`, `Job`, `Application`, `AdminNotes`
+=======
+# new_hire
+>>>>>>> 1f73c18a2f30dcff7df3b14da467f6e2b9b28fbc
