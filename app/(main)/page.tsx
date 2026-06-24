@@ -107,29 +107,25 @@ export default function Home() {
             Work with a small, focused team building products that serve our city. Internships at LocalSM are hands-on, mentored, and designed to grow your career.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="p-4 rounded-xl border border-[var(--line)] bg-[var(--card)]">
-              <div className="text-3xl mb-3">🚀</div>
+            <div className="p-4 rounded-xl border border-[var(--line)] bg-[var(--card)]"></div>
               <h3 className="font-semibold text-lg mb-1">Real Projects</h3>
               <p className="text-sm text-zinc-500">
                 Work on features actually shipping to LocalSM users.
               </p>
             </div>
             <div className="p-4 rounded-xl border border-[var(--line)] bg-[var(--card)]">
-              <div className="text-3xl mb-3">🎓</div>
               <h3 className="font-semibold text-lg mb-1">Certificate of Completion</h3>
               <p className="text-sm text-zinc-500">
                 Verified proof of your internship, ready for your resume.
               </p>
             </div>
             <div className="p-4 rounded-xl border border-[var(--line)] bg-[var(--card)]">
-              <div className="text-3xl mb-3">📈</div>
               <h3 className="font-semibold text-lg mb-1">Career Growth</h3>
               <p className="text-sm text-zinc-500">
                 Mentorship and a clear path from intern to full-time.
               </p>
             </div>
             <div className="p-4 rounded-xl border border-[var(--line)] bg-[var(--card)]">
-              <div className="text-3xl mb-3">🎉</div>
               <h3 className="font-semibold text-lg mb-1">Fun & Inclusive Culture</h3>
               <p className="text-sm text-zinc-500">
                 A small team that actually likes working together.
